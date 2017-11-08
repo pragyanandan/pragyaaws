@@ -5,9 +5,9 @@ import time
 REGION_NAME = 'us-west-2'
 AMI_ID = 'ami-8e27adbe'  # Amazon Linux AMI
  
-conn = boto.vpc.connect_to_region(REGION_NAME)
- 
-# Create a VPC
+conn = boto.vpc.connect_to_region(REGION_NE)
+
+# Create a VPC  - My VDI
 vpc = conn.create_vpc('10.0.0.0/16')
  
 # Configure the VPC to support DNS resolution and hostname assignment
