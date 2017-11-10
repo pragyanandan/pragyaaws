@@ -64,13 +64,19 @@ sec_group.authorize_ingress(
 
 print(sec_group.id)
 
-# find image id ami-aa1b34cf/ ap-souteast2
+# find image id ami-aa1b34cf/ ap-souteast2 - subnet1 - public
 # Create instance
 instances = ec2.create_instances(
-    ImageId=AMI_ID, InstanceType='t2.micro', MaxCount=1, MinCount=1,
-    NetworkInterfaces=[{'SubnetId': subnet1.id, 'DeviceIndex': 0, 'AssociatePublicIpAddress': True,
-                        'Groups': [sec_group.group_id]}])
+    ImageId=AMI_ID, InstanceType='t2.micro', MaxCount=1, MinCount=1, KeyName='AWSPython',
+    NetworkInterfaces=[{'SubnetId': subnet1.id,
+                        'DeviceIndex': 0,
+                        'AssociatePublicIpAddress': True,
+                        'Groups': [sec_group.group_id]
+                        }
+                       ])
 
 instances[0].wait_until_running()
 
 print(instances[0].id)
+
+
