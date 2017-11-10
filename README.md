@@ -1,2 +1,2 @@
 # pragyaaws
-Pragya Learning AWS
+Pragya's Repository
