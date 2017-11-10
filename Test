@@ -1,47 +1,17 @@
-subnet1 = client.create_subnet(
-    AvailabilityZone='ap-southeast-2a',
-    CidrBlock='10.0.1.0/24',
-    Ipv6CidrBlock='string',
-    VpcId=vpc.id,
-    DryRun=False
-)
+To access your instance:
+Open an SSH client. (find out how to connect using PuTTY)
 
+Locate your private key file (AWSPython.pem). The wizard automatically detects the key you used to launch the instance.
 
-# create then attach internet gateway
-ig = ec2.create_internet_gateway()
-vpc.attach_internet_gateway(InternetGatewayId=ig.id)
-print(ig.id)
+Your key must not be publicly viewable for SSH to work. Use this command if needed:
+chmod 400 AWSPython.pem
 
-# create a route table and a public route
-route_table = vpc.create_route_table()
-route = route_table.create_route(
-    DestinationCidrBlock='0.0.0.0/0',
-    GatewayId=ig.id
-)
-print(route_table.id)
+Connect to your instance using its Public DNS:
 
-# create subnet
-subnet = ec2.create_subnet(CidrBlock='192.168.1.0/24', VpcId=vpc.id)
-print(subnet.id)
+ec2-13-210-80-243.ap-southeast-2.compute.amazonaws.com
 
-# associate the route table with the subnet
-route_table.associate_with_subnet(SubnetId=subnet.id)
+Example:
+ssh -i "AWSPython.pem" ec2-user@ec2-13-210-80-243.ap-southeast-2.compute.amazonaws.com
 
-# Create sec group
-sec_group = ec2.create_security_group(
-    GroupName='slice_0', Description='slice_0 sec group', VpcId=vpc.id)
-sec_group.authorize_ingress(
-    CidrIp='0.0.0.0/0',
-    IpProtocol='icmp',
-    FromPort=-1,
-    ToPort=-1
-)
-print(sec_group.id)
-
-# find image id ami-835b4efa / us-west-2
-# Create instance
-instances = ec2.create_instances(
-    ImageId='ami-835b4efa', InstanceType='t2.micro', MaxCount=1, MinCount=1,
-    NetworkInterfaces=[{'SubnetId': subnet.id, 'DeviceIndex': 0, 'AssociatePublicIpAddress': True, 'Groups': [sec_group.group_id]}])
-instances[0].wait_until_running()
-print(instances[0].id)
+Please note that in most cases the username above will be correct, however please ensure that you read your AMI usage instructions to ensure that the AMI owner has not changed the default AMI username.
+If you need any assistance connecting to your instance, please see our connection documentation.
