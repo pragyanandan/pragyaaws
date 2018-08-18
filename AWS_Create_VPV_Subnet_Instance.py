@@ -11,6 +11,8 @@ ec2 = boto3.resource('ec2', region_name="ap-southeast-2")
 # create VPC
 vpc = ec2.create_vpc(CidrBlock='10.0.0.0/16')
 
+
+
 # we can assign a name to vpc, or any resource, by using tag
 vpc.create_tags(Tags=[{"Key": "Pragya", "Value": "CreatedbyCode"}])
 vpc.wait_until_available()
