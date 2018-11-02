@@ -1,6 +1,10 @@
 
 import requests
 import json
+
+print ("pragya")
+
+
 url = "http://api.fixer.io/latest?symbols=NZD,INR"
 
 response = requests.get(url)
