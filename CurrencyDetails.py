@@ -2,7 +2,7 @@
 import requests
 import json
 
-print ("pragya")
+print ('pragya')
 
 
 url = "http://api.fixer.io/latest?symbols=NZD,INR"
