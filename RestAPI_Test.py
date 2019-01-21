@@ -133,3 +133,5 @@ def spider():
     return y
 
 app.run()
+
+#This is the code for API
