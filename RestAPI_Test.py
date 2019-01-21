@@ -1,9 +1,12 @@
 
 import flask
-from flask import request, jsonify
+from flask import request
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 import json
+
+import os
 
 SL = 200
 SW = 300
@@ -18,6 +21,7 @@ allowed_weight = 25
 scost = 5.0
 mcost = 7.5
 lcost = 8.5
+
 
 
 def return_package_cost(Package_length, Package_Width, Package_Height, Package_Weight) :
@@ -61,7 +65,9 @@ def return_package_cost(Package_length, Package_Width, Package_Height, Package_W
             return y
 
 ## To return the Package Size and Cost
-@app.route('/api/v1/resources/', methods=['GET'])
+## Way of calling API
+## http://127.0.0.1:5000/api/v1/resources/packagesize?package_length=200&package_width=400&package_height=150&package_weight=22
+@app.route('/api/v1/resources/packagesize', methods=['GET'])
 def PackageSizeCost():
     # Check if a package_length was provided as part of the URL.
     package_length = 0
@@ -88,5 +94,42 @@ def PackageSizeCost():
 
 
     return return_package_cost(package_length, package_width, package_height, package_weight)
+
+
+## Way of calling API - API for launching Auto Task
+## http://127.0.0.1:5000/api/v1/resources/robot/tango
+@app.route('/api/v1/resources/robot/tango', methods=['GET'])
+def Tango():
+    os.system("C:\Tango.bat")
+    x = {
+        "Tango Success": "Yes",
+        "Error Code": "None"
+    }
+    y = json.dumps(x)
+    return y
+
+## Way of calling API  - This API is for creating financial Sheet
+## http://127.0.0.1:5000/api/v1/resources/robot/tango
+@app.route('/api/v1/resources/robot/jarvis', methods=['GET'])
+def Jarvis():
+    os.system("C:\Jarvis.bat")
+    x = {
+        "Jarvis Success": "Yes",
+        "Error Code": "None"
+    }
+    y = json.dumps(x)
+    return y
+
+## Way of calling API  - This API is for creating Contract and Project
+## http://127.0.0.1:5000/api/v1/resources/robot/tango
+@app.route('/api/v1/resources/robot/spider', methods=['GET'])
+def spider():
+    os.system("C:\spider.bat")
+    x = {
+        "Spider Success": "Yes",
+        "Error Code": "None"
+    }
+    y = json.dumps(x)
+    return y
 
 app.run()
